@@ -4,9 +4,22 @@ import pygame_menu
 import random
 import game as start
 
+def menu():
+    global name
+    surface = pygame.display.set_mode((1280, 720))
+    menu = pygame_menu.Menu('Welcome', 1280, 720,
+                            theme=pygame_menu.themes.THEME_DARK)
+    player = menu.add.text_input('Name :', default='John Doe', )
+    name = player.get_value()
+    menu.add.button('Play', game)
+    menu.add.button('Quit', pygame_menu.events.EXIT)
+    surface.blit(pygame.image.load('pr/mainback.jpg'), (0, 0))
+
+    menu.mainloop(surface)
+
 
 def game():
-    start.Game(player.get_value())
+    start.Game(name)
 
 def loss(pname, points):
     screen = pygame.display.set_mode((1280, 720))
@@ -31,15 +44,7 @@ def loss(pname, points):
 
 
 
-
+name = ''
 if __name__ == '__main__':
     pygame.init()
-    surface = pygame.display.set_mode((1280, 720))
-    menu = pygame_menu.Menu('Welcome', 1280, 720,
-                            theme=pygame_menu.themes.THEME_DARK)
-    player = menu.add.text_input('Name :', default='John Doe', )
-    menu.add.button('Play', game)
-    menu.add.button('Quit', pygame_menu.events.EXIT)
-    surface.blit(pygame.image.load('pr/mainback.jpg'), (0, 0))
-
-    menu.mainloop(surface)
+    menu()
