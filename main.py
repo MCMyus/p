@@ -10,13 +10,13 @@ def menu():
         surface = pygame.display.set_mode((1280, 720))
         menu = pygame_menu.Menu('Welcome', 1280, 720,
                                 theme=pygame_menu.themes.THEME_DARK)
-        player = menu.add.text_input('Name :', default='John Doe', )
+        player = menu.add.text_input('Name :', default='John Doe')
         name = player.get_value()
         menu.add.button('Play', game)
         menu.add.button('Quit', pygame_menu.events.EXIT)
         surface.blit(pygame.image.load('pr/mainback.jpg'), (0, 0))
-
         menu.mainloop(surface)
+        pygame.display.flip()
 
 
 def game():
@@ -42,7 +42,6 @@ def loss(pname, points):
         screen.blit(font.render(pname, 1, (255, 255, 255)), (10, 560))
         screen.blit(font.render(str(points),  1, (255, 255, 255)), (10, 660))
         pygame.display.flip()
-
 
 
 name = ''
