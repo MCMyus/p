@@ -5,12 +5,16 @@ import main
 
 WIDTH = 1280
 HEIGHT = 720
-FPS = 240
+FPS = 75
 
 pygame.init()
 
 
 def game(pname):
+    class House(pygame.sprite.Sprite):
+        def __init__(self):
+            pygame.sprite.Sprite.__init__(self)
+            self.image
     class Text:
         def __init__(self, sc):
             self.font = pygame.font.Font('pr/Pokemon GB.ttf', 35)
@@ -33,12 +37,14 @@ def game(pname):
         def __init__(self, bg):
             self.image = bg
             self.cam_x = 0
+            self.n = 0
 
         def update(self):
             if pygame.key.get_pressed()[pygame.K_d]:
                 self.cam_x -= 3
             if self.cam_x < -1280:
                 self.cam_x = 0
+                self.n += 1
             screen.blit(self.image, (self.cam_x, 0))
             screen.blit(self.image, (self.cam_x + 1280, 0))
 
@@ -98,12 +104,15 @@ def game(pname):
 
         def update(self):
             self.keys = pygame.key.get_pressed()
+
             if self.keys[pygame.K_a]:
                 self.rect.x -= 5
                 self.nap = 'l'
             if self.keys[pygame.K_d]:
                 self.rect.x += 5
                 self.nap = 'r'
+            if self.keys[pygame.K_b]:
+                main.start_menu()
             if self.keys[pygame.K_SPACE] and self.jump <= 20 and self.jbol:
                 self.jump += 1
                 self.rect.y -= 5
@@ -162,7 +171,6 @@ def game(pname):
     all_sprites.add(zombs)
     running = True
     while running:
-        clock.tick(FPS)
         screen.fill((0, 0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -173,14 +181,19 @@ def game(pname):
         if hits:
             main.loss(name, point.give())
         hitsp = pygame.sprite.groupcollide(pulls, zombs, True, True)
+        if hitsp:
+            point.pointadd()
         if not zombs.sprites():
             for _ in range(random.randint(1, 15)):
                 zombs.add(Zomb())
-                all_sprites.add(zombs)
+            all_sprites.add(zombs)
+        if back.n == 10:
+            house = House()
         back.update()
         point.update()
         player.anim()
         all_sprites.draw(screen)
         all_sprites.update()
         pygame.display.flip()
+        clock.tick(FPS)
     sys.exit()
