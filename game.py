@@ -89,6 +89,8 @@ def game(pname):
             self.keys = []
             self.nap = ''
             self.image = bg
+            self.jump = 0
+            self.jbol = True
             self.count = 0
             self.rect = self.image.get_rect()
             self.rect.center = (10, 650)
@@ -101,6 +103,17 @@ def game(pname):
             if self.keys[pygame.K_d]:
                 self.rect.x += 5
                 self.nap = 'r'
+            if self.keys[pygame.K_SPACE] and self.jump <= 20 and self.jbol:
+                self.jump += 1
+                self.rect.y -= 5
+                if self.jump == 20:
+                    self.jbol = False
+            elif self.jump:
+                self.jump -= 1
+                self.rect.y += 5
+                if self.jump == 0:
+                    self.jbol = True
+
             self.image = br
 
             if self.rect.right > WIDTH - 300:
