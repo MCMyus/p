@@ -65,6 +65,7 @@ def game(pname):
             self.rect = self.image.get_rect()
             self.rect.center = (random.randint(1280, 1600), 630)
             self.count = 0
+            self.a_count = 0
 
         def update(self):
             if pygame.key.get_pressed()[pygame.K_d]:
@@ -171,9 +172,7 @@ def game(pname):
         hits = pygame.sprite.spritecollide(player, zombs, False)
         if hits:
             main.loss(name, point.give())
-        hitsp = pygame.sprite.groupcollide(zombs, pulls, True, True)
-        if hitsp:
-            point.pointadd()
+        hitsp = pygame.sprite.groupcollide(pulls, zombs, True, True)
         if not zombs.sprites():
             for _ in range(random.randint(1, 15)):
                 zombs.add(Zomb())
