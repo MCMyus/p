@@ -1,7 +1,6 @@
 import sys
 import pygame
 import random
-
 import main
 
 WIDTH = 1280
@@ -11,7 +10,7 @@ FPS = 240
 pygame.init()
 
 
-def Game(pname):
+def game(pname):
     class Text:
         def __init__(self, sc):
             self.font = pygame.font.Font('pr/Pokemon GB.ttf', 35)
@@ -29,7 +28,6 @@ def Game(pname):
 
         def give(self):
             return self.point
-
 
     class Win:
         def __init__(self, bg):
@@ -110,7 +108,6 @@ def Game(pname):
             if self.rect.left < 0:
                 self.rect.left = 0
 
-
         def anim(self):
             self.keys = pygame.key.get_pressed()
             if self.count > 56:
@@ -138,7 +135,6 @@ def Game(pname):
     screen = pygame.display.set_mode(size)
     all_sprites = pygame.sprite.Group()
     pulls = pygame.sprite.Group()
-    font = pygame.font.Font('pr/Pokemon GB.ttf', 36)
     point = Text(screen)
     back = Win(pygame.transform.scale(pygame.image.load('pr/back.png'), (1280, 720)))
     br = pygame.image.load('pr/perc.png')
@@ -150,8 +146,6 @@ def Game(pname):
     clock = pygame.time.Clock()
     all_sprites.add(player)
     all_sprites.add(zombs)
-    x, y = 0, 0
-    w, a, s, d = [False] * 4
     running = True
     while running:
         clock.tick(FPS)

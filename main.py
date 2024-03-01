@@ -1,10 +1,10 @@
 import sys
 import pygame
 import pygame_menu
-import random
 import game as start
 
-def menu():
+
+def start_menu():
     global name
     while True:
         surface = pygame.display.set_mode((1280, 720))
@@ -20,7 +20,8 @@ def menu():
 
 
 def game():
-    start.Game(name)
+    start.game(name)
+
 
 def loss(pname, points):
     screen = pygame.display.set_mode((1280, 720))
@@ -40,11 +41,11 @@ def loss(pname, points):
         screen.blit(pygame.transform.scale(pygame.image.load('pr/mainback.jpg'), (1280, 720)), (0, 0))
         screen.blit(losstext, (540, 360))
         screen.blit(font.render(pname, 1, (255, 255, 255)), (10, 560))
-        screen.blit(font.render(str(points),  1, (255, 255, 255)), (10, 660))
+        screen.blit(font.render(str(points), 1, (255, 255, 255)), (10, 660))
         pygame.display.flip()
 
 
 name = ''
 if __name__ == '__main__':
     pygame.init()
-    menu()
+    start_menu()
