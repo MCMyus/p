@@ -6,17 +6,25 @@ import game as start
 
 def start_menu():
     global name
+    menu_theme = pygame_menu.themes.THEME_DARK.copy()
+    menu_theme.set_background_color_opacity(0.5)
+    surface = pygame.display.set_mode((1280, 720))
+    menu = pygame_menu.Menu('Welcome', 1280, 720,
+                            theme=menu_theme)
+    player = menu.add.text_input('Name :', default='John Doe')
+    menu.add.button('Play', game)
+    menu.add.button('Quit', pygame_menu.events.EXIT)
+    name = player.get_value()
     while True:
-        surface = pygame.display.set_mode((1280, 720))
-        menu = pygame_menu.Menu('Welcome', 1280, 720,
-                                theme=pygame_menu.themes.THEME_DARK)
-        player = menu.add.text_input('Name :', default='John Doe')
-        name = player.get_value()
-        menu.add.button('Play', game)
-        menu.add.button('Quit', pygame_menu.events.EXIT)
-        surface.blit(pygame.image.load('pr/mainback.jpg'), (0, 0))
-        menu.mainloop(surface)
-        pygame.display.flip()
+        surface.blit(pygame.transform.scale(pygame.image.load('pr/mainback.jpg'), (1280, 720)), (0, 0))
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                sys.exit()
+        if menu.is_enabled():
+            menu.update(events)
+            menu.draw(surface)
+            pygame.display.update()
 
 
 def game():
