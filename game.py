@@ -5,7 +5,7 @@ import main
 
 WIDTH = 1280
 HEIGHT = 720
-FPS = 75
+FPS = 240
 
 pygame.init()
 
@@ -14,7 +14,14 @@ def game(pname):
     class House(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
-            self.image
+            self.image = pygame.transform.scale(pygame.image.load('pr/home.png'), (250, 150))
+            self.rect = self.image.get_rect()
+            self.rect.center = (1400, 610)
+
+        def update(self):
+            if pygame.key.get_pressed()[pygame.K_d] and player.rect.x == 930:
+                self.rect.x -= 3
+
     class Text:
         def __init__(self, sc):
             self.font = pygame.font.Font('pr/Pokemon GB.ttf', 35)
@@ -40,7 +47,7 @@ def game(pname):
             self.n = 0
 
         def update(self):
-            if pygame.key.get_pressed()[pygame.K_d]:
+            if pygame.key.get_pressed()[pygame.K_d] and player.rect.x == 930:
                 self.cam_x -= 3
             if self.cam_x < -1280:
                 self.cam_x = 0
@@ -74,9 +81,10 @@ def game(pname):
             self.a_count = 0
 
         def update(self):
-            if pygame.key.get_pressed()[pygame.K_d]:
-                self.rect.x -= 3
-            self.rect.x -= 1
+            if pygame.key.get_pressed()[pygame.K_d] and player.rect.x == 930:
+                self.rect.x -= 4
+            else:
+                self.rect.x -= 1
 
             if self.rect.left < 0:
                 self.rect.left = 0
@@ -108,14 +116,13 @@ def game(pname):
             if self.keys[pygame.K_a]:
                 self.rect.x -= 5
                 self.nap = 'l'
-            if self.keys[pygame.K_d]:
+            elif self.keys[pygame.K_d]:
                 self.rect.x += 5
                 self.nap = 'r'
-            if self.keys[pygame.K_b]:
-                main.start_menu()
             if self.keys[pygame.K_SPACE] and self.jump <= 20 and self.jbol:
                 self.jump += 1
                 self.rect.y -= 5
+                self.rect.x += 2
                 if self.jump == 20:
                     self.jbol = False
             elif self.jump:
@@ -158,6 +165,7 @@ def game(pname):
     screen = pygame.display.set_mode(size)
     all_sprites = pygame.sprite.Group()
     pulls = pygame.sprite.Group()
+    house = pygame.sprite.Group()
     point = Text(screen)
     back = Win(pygame.transform.scale(pygame.image.load('pr/back.png'), (1280, 720)))
     br = pygame.image.load('pr/perc.png')
@@ -187,8 +195,12 @@ def game(pname):
             for _ in range(random.randint(1, 15)):
                 zombs.add(Zomb())
             all_sprites.add(zombs)
-        if back.n == 10:
-            house = House()
+        if back.n == 5:
+            house.add(House())
+            all_sprites.add(house)
+            back.n = 6
+        if pygame.sprite.spritecollideany(player, house):
+            main.next_lvl()
         back.update()
         point.update()
         player.anim()

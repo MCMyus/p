@@ -11,6 +11,9 @@ def start_menu():
     surface = pygame.display.set_mode((1280, 720))
     menu = pygame_menu.Menu('Welcome', 1280, 720,
                             theme=menu_theme)
+    pygame.mixer.music.load('pr/backsound.wav')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.01)
     player = menu.add.text_input('Name :', default='John Doe')
     menu.add.button('Play', game)
     menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -29,6 +32,22 @@ def start_menu():
 
 def game():
     start.game(name)
+
+
+def next_lvl():
+    screen = pygame.display.set_mode((1280, 720))
+    clock = pygame.time.Clock()
+    font = pygame.font.Font('pr/Pokemon GB.ttf', 35)
+    text = font.render('Loading next LEVEL', 1, (255, 255, 125))
+    while True:
+        screen.blit(pygame.transform.scale(pygame.image.load('pr/mainback.jpg'), (1280, 720)), (0, 0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        screen.blit(text, (350, 80))
+        pygame.display.update()
+        clock.tick(start.FPS)
 
 
 def loss(pname, points):
