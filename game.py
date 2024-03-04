@@ -10,7 +10,7 @@ FPS = 240
 pygame.init()
 
 
-def game(pname):
+def game(pname, c):
     class House(pygame.sprite.Sprite):
         def __init__(self):
             pygame.sprite.Sprite.__init__(self)
@@ -72,19 +72,20 @@ def game(pname):
                 self.kill()
 
     class Zomb(pygame.sprite.Sprite):
-        def __init__(self):
+        def __init__(self, l):
             pygame.sprite.Sprite.__init__(self)
             self.image = pygame.transform.scale(pygame.image.load('pr/zomb.png'), (70, 120))
             self.rect = self.image.get_rect()
             self.rect.center = (random.randint(1280, 1600), 630)
             self.count = 0
             self.a_count = 0
+            self.l = l
 
         def update(self):
             if pygame.key.get_pressed()[pygame.K_d] and player.rect.x == 930:
-                self.rect.x -= 4
+                self.rect.x -= 4 * self.l
             else:
-                self.rect.x -= 1
+                self.rect.x -= 1 * self.l
 
             if self.rect.left < 0:
                 self.rect.left = 0
@@ -168,13 +169,15 @@ def game(pname):
     pulls = pygame.sprite.Group()
     house = pygame.sprite.Group()
     point = Text(screen)
+    level = 1
+    level += c
     back = Win(pygame.transform.scale(pygame.image.load('pr/back.png'), (1280, 720)))
     br = pygame.image.load('pr/perc.png')
     br = pygame.transform.scale(br, (50, 70))
     player = Player(br)
     zombs = pygame.sprite.Group()
     for i in range(random.randint(1, 10)):
-        zombs.add(Zomb())
+        zombs.add(Zomb(level))
     clock = pygame.time.Clock()
     all_sprites.add(player)
     all_sprites.add(zombs)
@@ -194,7 +197,7 @@ def game(pname):
             point.pointadd()
         if not zombs.sprites():
             for _ in range(random.randint(1, 15)):
-                zombs.add(Zomb())
+                zombs.add(Zomb(level))
             all_sprites.add(zombs)
         if back.n == 5:
             house.add(House())

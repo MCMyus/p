@@ -31,7 +31,7 @@ def start_menu():
 
 
 def game():
-    start.game(name)
+    start.game(name, level)
 
 
 def next_lvl():
@@ -39,13 +39,16 @@ def next_lvl():
     clock = pygame.time.Clock()
     font = pygame.font.Font('pr/Pokemon GB.ttf', 35)
     text = font.render('Loading next LEVEL', 1, (255, 255, 125))
+    a = 0
     while True:
         screen.blit(pygame.transform.scale(pygame.image.load('pr/mainback.jpg'), (1280, 720)), (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-
+        a += 5
         screen.blit(text, (350, 80))
+        if a // 5 == 25:
+            start.game(name, level + 1)
         pygame.display.update()
         clock.tick(start.FPS)
 
@@ -72,6 +75,7 @@ def loss(pname, points):
         pygame.display.flip()
 
 
+level = 0
 name = ''
 if __name__ == '__main__':
     pygame.init()
