@@ -54,7 +54,7 @@ def loss(pname, points):
     screen = pygame.display.set_mode((1280, 720))
     r = 0
     file = open('save.txt', mode='a', encoding='UTF-8')
-    file.write(f'\n{pname}, {points}')
+    file.write(f'{pname}, {points}\n')
     while True:
         pygame.time.Clock().tick(120)
         r += 4
