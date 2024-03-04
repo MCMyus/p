@@ -138,6 +138,7 @@ def game(pname):
             if self.rect.left < 0:
                 self.rect.left = 0
 
+
         def anim(self):
             self.keys = pygame.key.get_pressed()
             if self.count > 56:
